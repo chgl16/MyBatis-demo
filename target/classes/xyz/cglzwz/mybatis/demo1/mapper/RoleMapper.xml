@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace表示对应的接口类 -->
+<mapper namespace="xyz.cglzwz.mybatis.demo1.mapper.RoleMapper">
+
+	<!-- role是使用了mybatis-config.xml里面的全局别名 -->
+	<insert id="insertRole" parameterType="role">
+		insert into t_role(role_name, note) values(#{roleName}, #{note})
+	</insert>
+	
+	<delete id="deleteRole" parameterType="Long">
+		delete from t_role where id = #{id}
+	</delete>
+	
+	<update id="updateRole" parameterType="role">
+		update t_role set role_name = #{roleName}, note = #{note} where id = #{id}
+	</update>
+	
+	<!-- 此处包含sql到pojo的映射，所有字段和属性名要一致，故此处使用别名，也可以用resultMap结果集映射 -->
+	<select id="getRole" parameterType="Long" resultType="role">
+		select id, role_name as roleName, note from t_role where id = #{id}
+	</select>
+	
+	<!-- 使用了sql匹配语法 -->
+	<select id="findRoles" parameterType="String" resultType="role">
+		select id, role_name as roleName, note from t_role
+		where role_name like concat('%', #{roleName}, '%')
+	</select>
+		
+</mapper>
